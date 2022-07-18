@@ -25,11 +25,13 @@ public class PlayerManager : MonoBehaviour
 
     private bool isAttack = false;
     public float _attackPower = 1f;
+    private ParticleSystem _recoveryPartical;
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _anim = _model.GetComponent<Animator>();
+        _recoveryPartical = GetComponent<ParticleSystem>();
 
         _sword = GameObject.Find("Sword");
         _sword2 = GameObject.Find("sword").GetComponent<BoxCollider2D>();
@@ -40,6 +42,7 @@ public class PlayerManager : MonoBehaviour
         _hp.value = _nowHP;
         _sword2.enabled = false;
         _attackPower = 1f;
+        _recoveryPartical.Stop();
        
     }
 
@@ -47,6 +50,7 @@ public class PlayerManager : MonoBehaviour
 
     void LateUpdate()
     {
+        _recoveryPartical.Stop();
         float x = Input.GetAxisRaw("Horizontal");
         if (_rb.velocity.magnitude < 5)
         {
@@ -143,7 +147,10 @@ public class PlayerManager : MonoBehaviour
         {
             _canvas2.SetActive(true);
         }
+        
     }
+
+
 
 
     

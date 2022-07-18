@@ -9,6 +9,14 @@ public class Recovery : ItemBase
     public override void Action()
     {
         FindObjectOfType<PlayerManager>().Recovery(_recovery);
+        StartCoroutine(ParticalTime());
+        FindObjectOfType<ParticleSystem>().Play();
+    }
+
+    IEnumerator ParticalTime()
+    {
+        yield return new WaitForSeconds(4);
+        FindObjectOfType<ParticleSystem>().Stop();
     }
 
     void Start()
