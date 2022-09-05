@@ -13,6 +13,8 @@ TagManager:
   - AttackPowerUp
   - SwordAttack
   - GameClear
+  - model
+  - Wall
   layers:
   - Default
   - TransparentFX

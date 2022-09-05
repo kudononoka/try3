@@ -5,28 +5,28 @@ using UnityEngine;
 public class Recovery : ItemBase
 {
     private float _recovery = 30f;
+    private ParticleSystem _recoveryPartical;
+    private ParticleSystem _attackUpPartical;
+
     // Start is called before the first frame update
+
+    void Start()
+    {
+        _recoveryPartical = GameObject.Find("Player").GetComponent<ParticleSystem>();
+        _attackUpPartical = GameObject.Find("model").GetComponent<ParticleSystem>();
+    }
+
     public override void Action()
     {
         FindObjectOfType<PlayerManager>().Recovery(_recovery);
         StartCoroutine(ParticalTime());
-        FindObjectOfType<ParticleSystem>().Play();
+        _recoveryPartical.Play();
+        _attackUpPartical.Stop();
     }
 
     IEnumerator ParticalTime()
     {
         yield return new WaitForSeconds(4);
-        FindObjectOfType<ParticleSystem>().Stop();
-    }
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _recoveryPartical.Stop();
     }
 }
