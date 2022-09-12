@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-
+using DG.Tweening;
 public class PlayerManager : MonoBehaviour
 {
     private Rigidbody2D _rb;
@@ -29,7 +29,8 @@ public class PlayerManager : MonoBehaviour
     private bool isAttack = false;
     public float _attackPower = 1f;
     private ParticleSystem _recoveryPartical;
-    
+
+    float changeTime = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,8 +52,8 @@ public class PlayerManager : MonoBehaviour
         _attackPower = 1f;
         _recoveryPartical.Stop();
 
-       
-        
+
+        HP(0);
     }
 
     // Update is called once per frame
@@ -131,16 +132,16 @@ public class PlayerManager : MonoBehaviour
                 _time2 = 0;
             }
         }
+
+        
     }
 
     public void HP(float damage)
     {
-        _hp.value = _hp.value - damage;
-        if(_hp.value <= 0)
-        {
-            _anim.SetBool("die",true);
-            _canvas2.SetActive(true);
-        }
+        
+        
+        ChangeValueHp(_hp.value - damage);
+        
     }
     public void Recovery(float recovery)
     {
@@ -150,6 +151,16 @@ public class PlayerManager : MonoBehaviour
     public void AttackPower(float attackPower)
     {
         _attackPower += attackPower;
+    }
+
+    private void ChangeValueHp(float hpvalue)
+    {
+        DOTween.To(() => _hp.value, x => _hp.value = x, hpvalue, changeTime);
+        if (_hp.value <= 0)
+        {
+            _anim.SetBool("die", true);
+            _canvas2.SetActive(true);
+        }
     }
         
 
